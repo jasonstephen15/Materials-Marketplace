@@ -5,47 +5,69 @@
 
 struct Company
 {
-char name[20];              //Initializing Data Structure
-int amount;
-int price;
-int ppu;                    //price per unit, higher ppu = better
+char name[20];              // Initializing Data Structure
+double amount;              // amount of item
+double price;               // price per bulk
+double ppu;                 // price per unit, higher ppu = better
 };
 
 int company_Pointer = 0;    //Initializing Pointers/Variables
-int bestppu = 0;
-char done[20] = "done";
+
+char done[20] = "done";     //String to compare against "done"
+int i;
+int j;
 
 int main()
 {
-    struct Company database[50]; //database size
+    struct Company database[20], temp; //creates a database of 20 slots, and a temporary space
     printf("Welcome to Materials Marketplace!\n");
-    while(1)
-     {
-        printf("Please enter company name: \n");
-        scanf("%s", &database[company_Pointer].name);
-        if((stricmp(database[company_Pointer].name,done))==0){break;}
 
-        printf("Please enter amount: \n");
-        scanf("%d", &database[company_Pointer].amount);
+        while(1)                     // populates database
+         {
+            printf("Please enter company name: \n");
+            scanf("%s", &database[company_Pointer].name);
+            if((stricmp(database[company_Pointer].name,done))==0){break;}       //allows to stop execution of program when "done" is entered
 
-        printf("Please enter price: \n");
-        scanf("%d", &database[company_Pointer].price);
-        while(getchar() != '\n');               //fixes bug
+            printf("Please enter amount: \n");
+            scanf("%lf", &database[company_Pointer].amount);
 
-        database[company_Pointer].ppu =  (database[company_Pointer].price)/( database[company_Pointer].amount);
-        if(database[company_Pointer].ppu > bestppu){bestppu = database[company_Pointer].ppu;}
+            printf("Please enter price: \n");
+            scanf("%lf", &database[company_Pointer].price);
+            while(getchar() != '\n');               //fixes bug
 
-     }
+            database[company_Pointer].ppu =  (database[company_Pointer].price)/( database[company_Pointer].amount); //logic for ppu (how we value)
+            company_Pointer++;  //next company
+         }
+
+
+    int numCompanies = company_Pointer; //total number of companies
 
 
      printf("\n");
-     printf(database[company_Pointer].name);
-     printf("\n");
-     printf("%d", database[company_Pointer].amount);
-     printf("\n");
-     printf("%d", database[company_Pointer].price);
-     printf("\n");
-     printf("%d", database[company_Pointer].ppu);
+     printf("Best Clients to sell to: \n");
+
+    for(i=0;i<=numCompanies-1;i++)              //Method to rank companies
+          {
+            for(j=0;j<=numCompanies-1;j++)
+            {
+                    if(database[j].ppu<database[j+1].ppu)
+                {
+                  temp=database[j];
+                  database[j]=database[j+1];
+                  database[j+1]=temp;
+                }
+            }
+            }
+
+          for(j=0;j<=numCompanies-1;j++)
+          {
+                printf("%d",(j+1));
+                printf(". Company: ");
+                printf(database[j].name);
+                printf("\n");
+          }
+
+        }
 
 
-}
+
