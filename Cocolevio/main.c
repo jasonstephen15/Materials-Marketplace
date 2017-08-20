@@ -6,9 +6,9 @@
 void getInformation();
 void sortCompanies();
 void printResults();
+void limitCompanies();
 
-
-struct Company{
+struct Company{;
 char name[20];              // Initializing Data Structure
 double amount;              // amount of item
 double price;               // price per bulk
@@ -17,8 +17,10 @@ double ppu;                 // price per unit, higher ppu = better
 
 int company_Pointer = 0;            //Initializing Pointers/Variables
 int numCompanies = 0;
+double origInventory;
 int i;
-int j;                              //arbitrary loop counters
+int j;
+int k;                             //arbitrary loop counters
 struct Company database[20], temp;  //creates a database of 20 slots, and a temporary space
 char done[20] = "done";             //String to compare against "done"
 
@@ -32,6 +34,7 @@ int main()
     sortCompanies();
     printResults();
 
+    limitCompanies();
     return 0;
 }
 
@@ -71,6 +74,7 @@ void sortCompanies()
                   temp=database[j];
                   database[j]=database[j+1];
                   database[j+1]=temp;
+
                 }
             }
             }
@@ -86,7 +90,43 @@ void printResults()
                 printf(database[j].name);
                 printf("\n");
           }
+           printf("\n");
 }
 
+void limitCompanies()
+{
+    int company_Pointer = 0;
 
+
+    printf("\n");
+    printf("Please enter amount of inventory: ");
+    scanf("%lf", &origInventory);
+    double inventory = origInventory;
+    double prevInventory =0;
+
+    for(k=0;k<=numCompanies-1;k++)
+    {
+
+    while(inventory > 0)
+    {
+
+    inventory -= database[company_Pointer].amount;
+
+
+    if(inventory <= 0)
+    {
+        printf("Sell %lf units to %s ", prevInventory,database[company_Pointer].name);
+        printf("\n");
+
+    }
+    else
+    {
+        printf("Sell %lf units to %s ", database[company_Pointer].amount,database[company_Pointer].name);
+        printf("\n");
+        company_Pointer++;
+        prevInventory = inventory;
+    }
+    }
+    }
+}
 
