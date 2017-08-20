@@ -3,24 +3,40 @@
 #include <math.h>
 #include <string.h>
 
-struct Company
-{
+void getInformation();
+void sortCompanies();
+void printResults();
+
+
+struct Company{
 char name[20];              // Initializing Data Structure
 double amount;              // amount of item
 double price;               // price per bulk
 double ppu;                 // price per unit, higher ppu = better
 };
 
-int company_Pointer = 0;    //Initializing Pointers/Variables
-
-char done[20] = "done";     //String to compare against "done"
+int company_Pointer = 0;            //Initializing Pointers/Variables
+int numCompanies = 0;
 int i;
-int j;
+int j;                              //arbitrary loop counters
+struct Company database[20], temp;  //creates a database of 20 slots, and a temporary space
+char done[20] = "done";             //String to compare against "done"
 
 int main()
 {
-    struct Company database[20], temp; //creates a database of 20 slots, and a temporary space
+
     printf("Welcome to Materials Marketplace!\n");
+    printf("Type done to end program.\n \n");
+
+    getInformation();
+    sortCompanies();
+    printResults();
+
+    return 0;
+}
+
+void getInformation()
+{
 
         while(1)                     // populates database
          {
@@ -40,12 +56,12 @@ int main()
          }
 
 
-    int numCompanies = company_Pointer; //total number of companies
+    numCompanies = company_Pointer; //total number of companies
 
+}
 
-     printf("\n");
-     printf("Best Clients to sell to: \n");
-
+void sortCompanies()
+{
     for(i=0;i<=numCompanies-1;i++)              //Method to rank companies
           {
             for(j=0;j<=numCompanies-1;j++)
@@ -58,16 +74,19 @@ int main()
                 }
             }
             }
+}
 
-          for(j=0;j<=numCompanies-1;j++)
+void printResults()
+{
+     printf("\n");
+     printf("Best Clients to sell to: \n");
+     for(j=0;j<=numCompanies-1;j++)
           {
-                printf("%d",(j+1));
-                printf(". Company: ");
+                printf("%d. Company: ",(j+1));
                 printf(database[j].name);
                 printf("\n");
           }
-
-        }
+}
 
 
 
